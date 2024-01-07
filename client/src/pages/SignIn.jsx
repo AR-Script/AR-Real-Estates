@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice.js';
 
 export default function SignIn() {
   
   const [formData, setFormData] = useState({})  //keep track of all changes within a form
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { loading, error } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     //keep the user input without erasing within the form
@@ -21,7 +23,7 @@ export default function SignIn() {
     e.preventDefault(); //prevent refreshing the page while submitting the form
     
     try {
-      setLoading(true); //before request set loading = true
+      dispatch(signInStart());
       
       const res = await fetch('api/auth/signin',
       {
@@ -35,17 +37,14 @@ export default function SignIn() {
       console.log(data);
       //test if data has an error/success is false
       if(data.success === false) {
-        setError(data.message);
-        setLoading(false);
+        dispatch(signInFailure(data.message));
         return;
       }
-      setLoading(false); //disable button if form submission successful
-      setError(null); //clear any errors if form submission successful
+      dispatch(signInSuccess(data));
       navigate('/');
 
     } catch (error) {
-      setLoading(false);
-      setError(error.message);
+      dispatch(signInFailure(error.message));
     }
   };
   
