@@ -15,7 +15,11 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,   //only string variables can be taken as an input for password
         required: true, //no user can be added to DB without a password
-    }
+    },
+    avatar:{
+        type: String,
+        default: "https://www.pngall.com/wp-content/uploads/5/Profile.png"
+    },
 }, {timestamps: true});   //tells DB to record time of creation and update 
 
 //model creation
