@@ -59,3 +59,12 @@ export const google = async (req, res, next) => {
         next(error); //sends server error messages to user via middleware
     }
 }
+
+export const signout = (req, res, next) => {
+    try {
+        res.clearCookie('access_token');
+        res.status(200).json('User has been signed out successfully!');
+    } catch (error) {
+        next(error); 
+    }
+}
