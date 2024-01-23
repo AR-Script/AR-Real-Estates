@@ -149,7 +149,7 @@ export default function CreateListing() {
                     onChange={handleChange} 
                     value={formData.name}
                 />
-                <input 
+                <textarea
                     type='text' 
                     placeholder='Description' 
                     className='border p-3 rounded-lg' 
